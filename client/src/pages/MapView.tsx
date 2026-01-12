@@ -61,26 +61,36 @@ export default function MapView() {
         color: '#06b6d4'
       }));
     } else if (layer === 'districts' && districts) {
-      // 灌區管理處座標（模擬）
-      const districtCoords: Record<string, { lat: number; lng: number }> = {
-        '桃園管理處': { lat: 24.99, lng: 121.30 },
-        '新竹管理處': { lat: 24.80, lng: 120.97 },
-        '苗栗管理處': { lat: 24.56, lng: 120.82 },
-        '台中管理處': { lat: 24.15, lng: 120.67 },
-        '彰化管理處': { lat: 24.08, lng: 120.54 },
-        '嘉南管理處': { lat: 23.30, lng: 120.31 },
-        '高雄管理處': { lat: 22.63, lng: 120.30 },
-        '石門管理處': { lat: 24.82, lng: 121.24 },
+      // 農田水利署各管理處座標（完整 15 個管理處）
+      const districtCoords: Record<string, { lat: number; lng: number; address?: string }> = {
+        '桃園管理處': { lat: 24.9936, lng: 121.3010, address: '桃園市桃園區介壽路32號' },
+        '石門管理處': { lat: 24.8200, lng: 121.2400, address: '桃園市龍潭區中正路210號' },
+        '新竹管理處': { lat: 24.8017, lng: 120.9714, address: '新竹市東區光復路二段295號' },
+        '苗栗管理處': { lat: 24.5667, lng: 120.8167, address: '苗栗縣苗栗市縣府路100號' },
+        '台中管理處': { lat: 24.1469, lng: 120.6839, address: '台中市西區民生路163號' },
+        '南投管理處': { lat: 23.9167, lng: 120.6833, address: '南投縣南投市彰南路二段600號' },
+        '彰化管理處': { lat: 24.0833, lng: 120.5333, address: '彰化縣彰化市中山路二段349號' },
+        '雲林管理處': { lat: 23.7167, lng: 120.5333, address: '雲林縣斗六市大同路400號' },
+        '嘉南管理處': { lat: 23.0000, lng: 120.2200, address: '台南市新營區長榮路三段100號' },
+        '高雄管理處': { lat: 22.6273, lng: 120.3014, address: '高雄市鳥松區大埠路32號' },
+        '屏東管理處': { lat: 22.6700, lng: 120.4867, address: '屏東縣屏東市民生路二段60號' },
+        '台東管理處': { lat: 22.7583, lng: 121.1500, address: '台東縣台東市中山路一段402號' },
+        '花蓮管理處': { lat: 23.9750, lng: 121.6000, address: '花蓮縣花蓮市中山路一段433號' },
+        '宜蘭管理處': { lat: 24.7639, lng: 121.7528, address: '宜蘭縣宜蘭市神農路二段117號' },
+        '湖口工作站': { lat: 24.8983, lng: 121.0433, address: '新竹縣湖口鄉中正路一段280號' },
       };
-      markerData = districts.map(d => ({
-        id: d.id,
-        name: d.name,
-        lat: districtCoords[d.name]?.lat || 24 + Math.random() * 2,
-        lng: districtCoords[d.name]?.lng || 120 + Math.random() * 2,
-        type: 'district',
-        data: d,
-        color: '#8b5cf6'
-      }));
+      markerData = districts.map(d => {
+        const coords = districtCoords[d.name];
+        return {
+          id: d.id,
+          name: d.name,
+          lat: coords?.lat || 24 + Math.random() * 2,
+          lng: coords?.lng || 120 + Math.random() * 2,
+          type: 'district',
+          data: { ...d, address: coords?.address },
+          color: '#8b5cf6'
+        };
+      });
     }
 
     markerData.forEach(item => {
@@ -332,7 +342,7 @@ export default function MapView() {
                     <div className="space-y-3 pt-3 border-t">
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">站點代碼</span>
-                        <span className="text-sm font-medium">{selectedItem.data.stationCode || '-'}</span>
+                        <span className="text-sm font-medium">{selectedItem.data.stationId || selectedItem.data.stationCode || '-'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">縣市</span>
@@ -343,10 +353,18 @@ export default function MapView() {
                         <span className="text-sm font-medium">{selectedItem.data.township || '-'}</span>
                       </div>
                       <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">流域</span>
+                        <span className="text-sm font-medium">{selectedItem.data.basin || '-'}</span>
+                      </div>
+                      <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">海拔</span>
                         <span className="text-sm font-medium">
-                          {selectedItem.data.elevation ? `${selectedItem.data.elevation} 公尺` : '-'}
+                          {selectedItem.data.altitude || selectedItem.data.elevation ? `${selectedItem.data.altitude || selectedItem.data.elevation} 公尺` : '-'}
                         </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">資料來源</span>
+                        <span className="text-sm font-medium">{selectedItem.data.source || '-'}</span>
                       </div>
                     </div>
                   )}
@@ -354,19 +372,35 @@ export default function MapView() {
                   {selectedItem.type === 'district' && selectedItem.data && (
                     <div className="space-y-3 pt-3 border-t">
                       <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">縣市</span>
+                        <span className="text-sm font-medium">{selectedItem.data.county || '-'}</span>
+                      </div>
+                      <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">管理面積</span>
                         <span className="text-sm font-medium">
-                          {selectedItem.data.area ? `${Number(selectedItem.data.area).toLocaleString()} 公頃` : '-'}
+                          {selectedItem.data.area ? `${Number(selectedItem.data.area).toLocaleString()} 公頁` : '-'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">灌溉面積</span>
+                        <span className="text-sm font-medium">
+                          {selectedItem.data.irrigatedArea ? `${Number(selectedItem.data.irrigatedArea).toLocaleString()} 公頁` : '-'}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">主要作物</span>
-                        <span className="text-sm font-medium">{selectedItem.data.mainCrops || '-'}</span>
+                        <span className="text-sm font-medium text-right max-w-[150px]">{selectedItem.data.mainCrops || '-'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">水源</span>
-                        <span className="text-sm font-medium">{selectedItem.data.waterSource || '-'}</span>
+                        <span className="text-sm font-medium text-right max-w-[150px]">{selectedItem.data.waterSources || selectedItem.data.waterSource || '-'}</span>
                       </div>
+                      {selectedItem.data.address && (
+                        <div className="pt-2">
+                          <span className="text-sm text-muted-foreground">地址</span>
+                          <p className="text-sm font-medium mt-1">{selectedItem.data.address}</p>
+                        </div>
+                      )}
                     </div>
                   )}
 

@@ -559,12 +559,30 @@ export const mockDataGenerator = {
 
   generateRainfallStations() {
     const stations = [
-      { stationId: 'RF001', name: '桃園站', county: '桃園市', township: '桃園區', latitude: '24.9936', longitude: '121.3010', altitude: '35' },
-      { stationId: 'RF002', name: '新竹站', county: '新竹市', township: '東區', latitude: '24.8017', longitude: '120.9714', altitude: '27' },
-      { stationId: 'RF003', name: '台中站', county: '台中市', township: '西區', latitude: '24.1469', longitude: '120.6839', altitude: '84' },
-      { stationId: 'RF004', name: '嘉義站', county: '嘉義市', township: '西區', latitude: '23.4800', longitude: '120.4500', altitude: '27' },
-      { stationId: 'RF005', name: '台南站', county: '台南市', township: '中西區', latitude: '22.9908', longitude: '120.2133', altitude: '14' },
-      { stationId: 'RF006', name: '高雄站', county: '高雄市', township: '前金區', latitude: '22.6273', longitude: '120.3014', altitude: '2' }
+      // 北部地區
+      { stationId: 'RF001', name: '桃園氣象站', county: '桃園市', township: '桃園區', latitude: '24.9936', longitude: '121.3010', altitude: '35', basin: '南崁溪', source: '農業氣象觀測網' },
+      { stationId: 'RF002', name: '新竹氣象站', county: '新竹市', township: '東區', latitude: '24.8017', longitude: '120.9714', altitude: '27', basin: '頭前溪', source: '農業氣象觀測網' },
+      { stationId: 'RF003', name: '大溪雨量站', county: '桃園市', township: '大溪區', latitude: '24.8833', longitude: '121.2333', altitude: '280', basin: '大漢溪', source: '水利署' },
+      { stationId: 'RF004', name: '石門雨量站', county: '桃園市', township: '龍潭區', latitude: '24.8167', longitude: '121.2500', altitude: '250', basin: '大漢溪', source: '水利署' },
+      { stationId: 'RF005', name: '宜蘭氣象站', county: '宜蘭縣', township: '宜蘭市', latitude: '24.7639', longitude: '121.7528', altitude: '8', basin: '蘭陽溪', source: '農業氣象觀測網' },
+      { stationId: 'RF006', name: '基隆雨量站', county: '基隆市', township: '中正區', latitude: '25.1333', longitude: '121.7333', altitude: '27', basin: '基隆河', source: '水利署' },
+      // 中部地區
+      { stationId: 'RF007', name: '台中氣象站', county: '台中市', township: '西區', latitude: '24.1469', longitude: '120.6839', altitude: '84', basin: '大甲溪', source: '農業氣象觀測網' },
+      { stationId: 'RF008', name: '彰化氣象站', county: '彰化縣', township: '彰化市', latitude: '24.0833', longitude: '120.5333', altitude: '9', basin: '濯水溪', source: '農業氣象觀測網' },
+      { stationId: 'RF009', name: '南投氣象站', county: '南投縣', township: '南投市', latitude: '23.9167', longitude: '120.6833', altitude: '358', basin: '濯水溪', source: '農業氣象觀測網' },
+      { stationId: 'RF010', name: '苗栗雨量站', county: '苗栗縣', township: '苗栗市', latitude: '24.5667', longitude: '120.8167', altitude: '100', basin: '後龍溪', source: '水利署' },
+      { stationId: 'RF011', name: '雲林氣象站', county: '雲林縣', township: '斗六市', latitude: '23.7167', longitude: '120.5333', altitude: '25', basin: '北港溪', source: '農業氣象觀測網' },
+      // 南部地區
+      { stationId: 'RF012', name: '嘉義氣象站', county: '嘉義市', township: '西區', latitude: '23.4800', longitude: '120.4500', altitude: '27', basin: '八掌溪', source: '農業氣象觀測網' },
+      { stationId: 'RF013', name: '台南氣象站', county: '台南市', township: '中西區', latitude: '22.9908', longitude: '120.2133', altitude: '14', basin: '曾文溪', source: '農業氣象觀測網' },
+      { stationId: 'RF014', name: '曾文水庫雨量站', county: '嘉義縣', township: '大埔鄉', latitude: '23.2500', longitude: '120.5333', altitude: '232', basin: '曾文溪', source: '水利署' },
+      { stationId: 'RF015', name: '高雄氣象站', county: '高雄市', township: '前金區', latitude: '22.6273', longitude: '120.3014', altitude: '2', basin: '愛河', source: '農業氣象觀測網' },
+      { stationId: 'RF016', name: '屏東氣象站', county: '屏東縣', township: '屏東市', latitude: '22.6700', longitude: '120.4867', altitude: '37', basin: '高屏溪', source: '農業氣象觀測網' },
+      { stationId: 'RF017', name: '南化水庫雨量站', county: '台南市', township: '南化區', latitude: '23.0833', longitude: '120.4833', altitude: '185', basin: '後堵溪', source: '水利署' },
+      // 東部地區
+      { stationId: 'RF018', name: '花蓮氣象站', county: '花蓮縣', township: '花蓮市', latitude: '23.9750', longitude: '121.6000', altitude: '16', basin: '花蓮溪', source: '農業氣象觀測網' },
+      { stationId: 'RF019', name: '台東氣象站', county: '台東縣', township: '台東市', latitude: '22.7583', longitude: '121.1500', altitude: '9', basin: '卑南溪', source: '農業氣象觀測網' },
+      { stationId: 'RF020', name: '玉里雨量站', county: '花蓮縣', township: '玉里鎮', latitude: '23.3333', longitude: '121.3167', altitude: '50', basin: '秀姑巒溪', source: '水利署' }
     ];
     return stations;
   },
@@ -582,14 +600,22 @@ export const mockDataGenerator = {
 
   generateIrrigationDistricts() {
     const districts = [
-      { code: 'ID001', name: '桃園管理處', managementOffice: '桃園管理處', county: '桃園市', area: '25000', irrigatedArea: '18000', mainCrops: '水稻、蔬菜' },
-      { code: 'ID002', name: '石門管理處', managementOffice: '石門管理處', county: '桃園市', area: '32000', irrigatedArea: '24000', mainCrops: '水稻、茶葉' },
-      { code: 'ID003', name: '新竹管理處', managementOffice: '新竹管理處', county: '新竹縣', area: '18000', irrigatedArea: '12000', mainCrops: '水稻、柑橘' },
-      { code: 'ID004', name: '苗栗管理處', managementOffice: '苗栗管理處', county: '苗栗縣', area: '22000', irrigatedArea: '15000', mainCrops: '水稻、草莓' },
-      { code: 'ID005', name: '台中管理處', managementOffice: '台中管理處', county: '台中市', area: '45000', irrigatedArea: '35000', mainCrops: '水稻、蔬菜、花卉' },
-      { code: 'ID006', name: '彰化管理處', managementOffice: '彰化管理處', county: '彰化縣', area: '55000', irrigatedArea: '42000', mainCrops: '水稻、葡萄' },
-      { code: 'ID007', name: '嘉南管理處', managementOffice: '嘉南管理處', county: '台南市', area: '78000', irrigatedArea: '65000', mainCrops: '水稻、甘蔗、蓮藕' },
-      { code: 'ID008', name: '高雄管理處', managementOffice: '高雄管理處', county: '高雄市', area: '35000', irrigatedArea: '28000', mainCrops: '水稻、蔬菜、芒果' }
+      // 農田水利署各管理處完整資料（含座標）
+      { code: 'ID001', name: '桃園管理處', managementOffice: '農田水利署桃園管理處', county: '桃園市', area: '25000', irrigatedArea: '18000', mainCrops: '水稻、蓬菜、茶葉', waterSources: '石門水庫、埔塘', latitude: '24.9936', longitude: '121.3010', address: '桃園市桃園區介壽路32號' },
+      { code: 'ID002', name: '石門管理處', managementOffice: '農田水利署石門管理處', county: '桃園市', area: '32000', irrigatedArea: '24000', mainCrops: '水稻、茶葉、柑橘', waterSources: '石門水庫、大漢溪', latitude: '24.8200', longitude: '121.2400', address: '桃園市龍潭區中正路210號' },
+      { code: 'ID003', name: '新竹管理處', managementOffice: '農田水利署新竹管理處', county: '新竹縣', area: '18000', irrigatedArea: '12000', mainCrops: '水稻、柑橘、水梨', waterSources: '寶山水庫、頭前溪', latitude: '24.8017', longitude: '120.9714', address: '新竹市東區光復路二段295號' },
+      { code: 'ID004', name: '苗栗管理處', managementOffice: '農田水利署苗栗管理處', county: '苗栗縣', area: '22000', irrigatedArea: '15000', mainCrops: '水稻、草莓、芥菜', waterSources: '鯉魚潭水庫、後龍溪', latitude: '24.5667', longitude: '120.8167', address: '苗栗縣苗栗市縣府路100號' },
+      { code: 'ID005', name: '台中管理處', managementOffice: '農田水利署台中管理處', county: '台中市', area: '45000', irrigatedArea: '35000', mainCrops: '水稻、蓬菜、花卉、葡萄', waterSources: '德基水庫、大甲溪', latitude: '24.1469', longitude: '120.6839', address: '台中市西區民生路163號' },
+      { code: 'ID006', name: '南投管理處', managementOffice: '農田水利署南投管理處', county: '南投縣', area: '28000', irrigatedArea: '20000', mainCrops: '水稻、茶葉、筍筍', waterSources: '日月潭水庫、濯水溪', latitude: '23.9167', longitude: '120.6833', address: '南投縣南投市彰南路二段南投段600號' },
+      { code: 'ID007', name: '彰化管理處', managementOffice: '農田水利署彰化管理處', county: '彰化縣', area: '55000', irrigatedArea: '42000', mainCrops: '水稻、葡萄、花椰菜', waterSources: '集集攔沙壩、濯水溪', latitude: '24.0833', longitude: '120.5333', address: '彰化縣彰化市中山路二段349號' },
+      { code: 'ID008', name: '雲林管理處', managementOffice: '農田水利署雲林管理處', county: '雲林縣', area: '48000', irrigatedArea: '38000', mainCrops: '水稻、花生、大蒜', waterSources: '湖山水庫、北港溪', latitude: '23.7167', longitude: '120.5333', address: '雲林縣斗六市大同路400號' },
+      { code: 'ID009', name: '嘉南管理處', managementOffice: '農田水利署嘉南管理處', county: '台南市', area: '78000', irrigatedArea: '65000', mainCrops: '水稻、甘蔗、蓮藕、玉米', waterSources: '曾文水庫、烏山頭水庫、嘉南大圳', latitude: '23.0000', longitude: '120.2200', address: '台南市新營區長榮路三段100號' },
+      { code: 'ID010', name: '高雄管理處', managementOffice: '農田水利署高雄管理處', county: '高雄市', area: '35000', irrigatedArea: '28000', mainCrops: '水稻、蓬菜、芒果、香蕉', waterSources: '阿公店水庫、高屏溪', latitude: '22.6273', longitude: '120.3014', address: '高雄市鳥松區大埠路32號' },
+      { code: 'ID011', name: '屏東管理處', managementOffice: '農田水利署屏東管理處', county: '屏東縣', area: '42000', irrigatedArea: '32000', mainCrops: '水稻、蓮霧、香蕉、檎檬', waterSources: '牡丹水庫、高屏溪', latitude: '22.6700', longitude: '120.4867', address: '屏東縣屏東市民生路二段60號' },
+      { code: 'ID012', name: '台東管理處', managementOffice: '農田水利署台東管理處', county: '台東縣', area: '25000', irrigatedArea: '18000', mainCrops: '水稻、釋迦、鳳梨', waterSources: '卑南溪、地下水', latitude: '22.7583', longitude: '121.1500', address: '台東縣台東市中山路一段402號' },
+      { code: 'ID013', name: '花蓮管理處', managementOffice: '農田水利署花蓮管理處', county: '花蓮縣', area: '30000', irrigatedArea: '22000', mainCrops: '水稻、西瓜、文旦', waterSources: '花蓮溪、秀姑巒溪', latitude: '23.9750', longitude: '121.6000', address: '花蓮縣花蓮市中山路一段433號' },
+      { code: 'ID014', name: '宜蘭管理處', managementOffice: '農田水利署宜蘭管理處', county: '宜蘭縣', area: '22000', irrigatedArea: '16000', mainCrops: '水稻、三星蔥、金棗', waterSources: '蘭陽溪、宜蘭河', latitude: '24.7639', longitude: '121.7528', address: '宜蘭縣宜蘭市神農路二段117號' },
+      { code: 'ID015', name: '湖口工作站', managementOffice: '農田水利署桃園管理處湖口工作站', county: '新竹縣', area: '8500', irrigatedArea: '6200', mainCrops: '水稻、蓬菜、茶葉', waterSources: '石門水庫、埔塘', latitude: '24.8983', longitude: '121.0433', address: '新竹縣湖口鄉中正路一段280號' }
     ];
     return districts;
   },
