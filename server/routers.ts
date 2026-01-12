@@ -532,22 +532,45 @@ export const appRouter = router({
         parameters: z.record(z.string(), z.any())
       }))
       .mutation(async ({ input }) => {
-        const totalWaterAvailable = Math.random() * 50000 + 30000;
+        // 使用輸入的可用水量，如果沒有則使用隨機值
+        const totalWaterAvailable = input.parameters.totalWaterAvailable 
+          ? Number(input.parameters.totalWaterAvailable) * 10000 // 轉換為噸
+          : Math.random() * 50000 + 30000;
         const totalWaterDemand = Math.random() * 60000 + 25000;
-        const allocationEfficiency = Math.min(totalWaterAvailable / totalWaterDemand, 1);
+        const allocationRatio = Math.min(totalWaterAvailable / totalWaterDemand, 1);
+        const allocatedAmount = totalWaterAvailable * allocationRatio;
+        const deficit = Math.max(0, totalWaterDemand - totalWaterAvailable);
+        
+        // 決定優先級
+        let priority: 'normal' | 'restricted' | 'critical' = 'normal';
+        if (allocationRatio < 0.7) {
+          priority = 'critical';
+        } else if (allocationRatio < 0.9) {
+          priority = 'restricted';
+        }
+
+        const allocationPlan = {
+          priority,
+          allocationRatio: allocationRatio.toFixed(3),
+          totalAvailable: (totalWaterAvailable / 10000).toFixed(2), // 轉換為萬噸
+          totalDemand: (totalWaterDemand / 10000).toFixed(2),
+          allocatedAmount: (allocatedAmount / 10000).toFixed(2),
+          deficit: (deficit / 10000).toFixed(2)
+        };
 
         const result = {
           districtId: input.districtId,
           scenarioName: input.scenarioName,
           simulationDate: new Date(),
           parameters: JSON.stringify(input.parameters),
-          totalWaterAvailable: totalWaterAvailable.toFixed(2),
-          totalWaterDemand: totalWaterDemand.toFixed(2),
-          allocationEfficiency: allocationEfficiency.toFixed(2),
+          totalWaterAvailable: (totalWaterAvailable / 10000).toFixed(2),
+          totalWaterDemand: (totalWaterDemand / 10000).toFixed(2),
+          allocationEfficiency: allocationRatio.toFixed(2),
+          allocationPlan: JSON.stringify(allocationPlan),
           results: JSON.stringify({
-            allocatedWater: (totalWaterAvailable * allocationEfficiency).toFixed(2),
-            shortfall: Math.max(0, totalWaterDemand - totalWaterAvailable).toFixed(2),
-            recommendations: allocationEfficiency < 0.8 
+            allocatedWater: (allocatedAmount / 10000).toFixed(2),
+            shortfall: (deficit / 10000).toFixed(2),
+            recommendations: allocationRatio < 0.8 
               ? ['建議啟動節水措施', '調整灌溉時程', '優先供應高經濟作物']
               : ['維持正常配水', '監控水源變化']
           }),
@@ -555,7 +578,12 @@ export const appRouter = router({
         };
 
         await db.insertSimulation(result);
-        return result;
+        
+        // 回傳包含 allocationPlan 物件的結果
+        return {
+          ...result,
+          allocationPlan
+        };
       })
   }),
 
