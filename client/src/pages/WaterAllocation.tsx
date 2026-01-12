@@ -9,7 +9,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { trpc } from "@/lib/trpc";
-import { Activity, Play, History, AlertCircle, CheckCircle2, Droplets } from "lucide-react";
+import { Activity, Play, History, AlertCircle, CheckCircle2, Droplets, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 
 export default function WaterAllocation() {
@@ -24,6 +35,20 @@ export default function WaterAllocation() {
     { districtId: Number(selectedDistrict), limit: 5 },
     { enabled: !!selectedDistrict }
   );
+
+  const deleteSimulationMutation = trpc.waterAllocation.deleteSimulation.useMutation({
+    onSuccess: () => {
+      toast.success("已刪除模擬記錄");
+      refetchSimulations();
+    },
+    onError: (error) => {
+      toast.error(`刪除失敗：${error.message}`);
+    }
+  });
+
+  const handleDeleteSimulation = (id: number) => {
+    deleteSimulationMutation.mutate({ id });
+  };
 
   const runSimulationMutation = trpc.waterAllocation.runSimulation.useMutation({
     onSuccess: (data) => {
@@ -291,6 +316,35 @@ export default function WaterAllocation() {
                         <Badge variant={priorityConfig.variant}>
                           {priorityConfig.label}
                         </Badge>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="text-muted-foreground hover:text-red-500"
+                              disabled={!user}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>確認刪除</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                您確定要刪除「{sim.scenarioName}」這筆模擬記錄嗎？此操作無法復原。
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>取消</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => handleDeleteSimulation(sim.id)}
+                                className="bg-red-500 hover:bg-red-600"
+                              >
+                                刪除
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
                     </div>
                   );

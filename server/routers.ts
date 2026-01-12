@@ -584,6 +584,13 @@ export const appRouter = router({
           ...result,
           allocationPlan
         };
+      }),
+
+    deleteSimulation: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.deleteSimulation(input.id);
+        return { success: true, deletedId: input.id };
       })
   }),
 

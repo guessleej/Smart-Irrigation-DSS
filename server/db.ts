@@ -409,3 +409,10 @@ export async function upsertFacility(data: InsertIrrigationFacility) {
 export async function insertSimulation(data: InsertWaterAllocationSimulation) {
   return insertWaterAllocationSimulation(data);
 }
+
+// Delete simulation by ID
+export async function deleteSimulation(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(waterAllocationSimulations).where(eq(waterAllocationSimulations.id, id));
+}
