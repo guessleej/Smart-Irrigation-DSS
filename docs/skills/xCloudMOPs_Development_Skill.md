@@ -1,6 +1,6 @@
 # xCloudMOPs 開發 Skill
 
-> **版本**: 1.0.0  
+> **版本**: 1.1.0  
 > **適用對象**: xCloudMOPs 平台前後端開發者、AI 工程師、DevOps 工程師  
 > **維護單位**: 云碩科技 (xCloudinfo Group)
 
@@ -24,7 +24,7 @@ xCloudMOPs 採用清晰的分層架構，確保各層職責分明、易於維護
 | L2 | 接口服務層 | 提供 RESTful API，處理業務邏輯入口 | Flask, Nginx 反向代理 |
 | L3 | 業務邏輯層 | 實現核心業務功能（RAG、Agent、工作流等） | Python, Celery |
 | L4 | 深度文檔層 | 處理文檔解析、OCR、結構化提取 | Vision 模塊, Parser 解析器 |
-| L5 | 模型適配層 | 統一管理和調用各類 LLM 模型 | Xinference, Ollama, vLLM, OpenAI API |
+| L5 | 模型適配層 | 透過 LiteLLM 統一管理和調用各類 LLM 模型 | LiteLLM, Xinference, Ollama, vLLM |
 | L6 | 數據存儲層 | 持久化存儲各類數據 | MySQL, Redis, ES/Infinity, MinIO |
 | L7 | 基礎設施層 | 提供日誌、監控、認證等基礎服務 | Grafana, Docker, Kubernetes |
 
@@ -238,7 +238,7 @@ GraphRAG 層提供知識圖譜的構建和探索能力，讓使用者能夠理�
 
 ### 4.1 支援的 LLM 服務
 
-xCloudMOPs 支援多種 LLM 服務，實現雲地混合架構：
+xCloudMOPs 透過 **LiteLLM** 統一管理所有對外 LLM API，支援超過 100 種模型，實現無縫的雲地混合架構：
 
 | 服務類型 | 支援的服務 | 部署方式 |
 |:---|:---|:---|
@@ -246,7 +246,15 @@ xCloudMOPs 支援多種 LLM 服務，實現雲地混合架構：
 | 高性能推理 | vLLM, SGLang | 地端/雲端 |
 | 雲端服務 | OpenAI, Claude, Gemini, Qwen | 雲端 API |
 
-### 4.2 模型適配層設計
+### 4.2 LiteLLM 統一 API 管理
+
+xCloudMOPs 採用 **LiteLLM** 作為所有對外 LLM API 的統一管理層。所有對模型的調用，無論是本地部署還是雲端服務，都應通過 LiteLLM 提供的 OpenAI 標準兼容接口進行。這帶來了以下好處：
+
+*   **統一接口**：開發者只需編寫一次代碼，即可調用超過 100 種不同的 LLM。
+*   **負載均衡與故障轉移**：可配置多個模型密鑰，實現自動的負載均衡和故障轉移。
+*   **成本控制與日誌**：集中管理 API 密鑰，監控和記錄所有模型的調用成本和日誌。
+
+### 4.3 模型適配層設計
 
 模型適配層提供統一的接口來調用不同的 LLM 服務，解耦業務邏輯和具體的模型實現。
 
@@ -377,6 +385,7 @@ xCloudMOPs 使用 Docker Compose 進行部署，確保系統可以在任何環�
 | 物件存儲 | MinIO |
 | 監控 | Grafana, Prometheus |
 | LLM 推理 | Ollama |
+| API 管理 | LiteLLM |
 
 ### 8.2 部署步驟
 
