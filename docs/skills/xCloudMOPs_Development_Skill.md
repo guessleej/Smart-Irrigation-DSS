@@ -1,6 +1,6 @@
 # xCloudMOPs 開發 Skill
 
-> **版本**: 1.1.0  
+> **版本**: 2.0.0  
 > **適用對象**: xCloudMOPs 平台前後端開發者、AI 工程師、DevOps 工程師  
 > **維護單位**: 云碩科技 (xCloudinfo Group)
 
@@ -10,7 +10,7 @@
 
 ### 1.1 平台簡介
 
-**xCloudMOPs** 是由云碩科技打造的企業級 LLMOps 平台，旨在為企業提供一站式的大型語言模型應用開發、部署與運維解決方案。平台整合了 RAG（檢索增強生成）、AI Agent、GraphRAG、工作流編排等核心能力，並支援雲地混合架構，讓企業可以靈活地在本地或雲端部署和管理 AI 應用。
+**xCloudMOPs** 是由云碩科技打造的企業級 LLMOps 平台，旨在為企業提供一站式的大型語言模型應用開發、部署與運維解決方案。平台整合了 RAG 管道、AI Agent 工作流、模型管理與可觀察性等核心能力。其架構設計將前端 (Web)、後端 (API)、軟體開發套件 (SDK)、容器化部署 (Docker) 及開發工具 (Dev) 等核心模組清晰分離，旨在讓開發者能快速從原型無縫過渡到生產環境。
 
 平台的核心設計理念是**專業、直觀、模組化**。透過精心設計的 UI/UX 和強大的後端服務，xCloudMOPs 能夠滿足從 AI 研究人員到業務分析師的多樣化需求。
 
@@ -20,7 +20,7 @@ xCloudMOPs 採用清晰的分層架構，確保各層職責分明、易於維護
 
 | 層級 | 名稱 | 核心職責 | 主要技術/服務 |
 |:---|:---|:---|:---|
-| L1 | 前端展現層 | 提供使用者介面，處理使用者交互 | UmiJS 4.0, React 18, Ant Design 5.x, ReactFlow |
+| L1 | 前端展現層 | 提供使用者介面，處理使用者交互 | Next.js, React 18, Ant Design 5.x, ReactFlow |
 | L2 | 接口服務層 | 提供 RESTful API，處理業務邏輯入口 | Flask, Nginx 反向代理 |
 | L3 | 業務邏輯層 | 實現核心業務功能（RAG、Agent、工作流等） | Python, Celery |
 | L4 | 深度文檔層 | 處理文檔解析、OCR、結構化提取 | Vision 模塊, Parser 解析器 |
@@ -34,7 +34,7 @@ xCloudMOPs 採用清晰的分層架構，確保各層職責分明、易於維護
 
 | 類別 | 技術選型 | 說明 |
 |:---|:---|:---|
-| 框架 | UmiJS 4.0 + React 18 + TypeScript | 企業級前端框架，提供完善的路由和構建能力 |
+| 框架 | Next.js + React 18 + TypeScript | 業界領先的 React 框架，提供伺服器端渲染和靜態站點生成能力 |
 | UI 組件 | Ant Design 5.x + Radix UI + Tailwind CSS | 成熟的企業級組件庫，搭配原子化 CSS |
 | 狀態管理 | Zustand + TanStack Query | 輕量級全局狀態管理 + 強大的服務端狀態管理 |
 | 視覺化 | ReactFlow + Recharts | 用於 Agent/工作流畫布和數據圖表 |
@@ -60,7 +60,21 @@ xCloudMOPs 採用清晰的分層架構，確保各層職責分明、易於維護
 
 ---
 
-## 第二部分：UI/UX 設計理念
+## 第二部分：專案模組化架構
+
+根據最新的架構全景，xCloudMOPs 的專案被劃分為五個核心模組，各模組職責分明，協同工作。
+
+| 模組路徑 | 模組名稱 | 核心職責 |
+|:---|:---|:---|
+| `/api` | API 服務模組 | 基於 Flask 的後端核心，提供所有功能的 RESTful API 接口。 |
+| `/web` | Web 前端模組 | 基於 Next.js 的使用者介面，提供視覺化的操作介面。 |
+| `/sdks` | SDK 模組 | 提供多語言 (Node.js, Python, PHP) 客戶端，方便第三方應用整合。 |
+| `/docker` | Docker 部署模組 | 提供容器化部署的設定檔與腳本，簡化部署流程。 |
+| `/dev` | 開發工具模組 | 包含程式碼格式化、類型檢查、依賴管理等開發輔助工具。 |
+
+---
+
+## 第三部分：UI/UX 設計理念
 
 ### 2.1 核心設計原則
 
@@ -97,7 +111,7 @@ xCloudMOPs 支援企業品牌客製化，讓平台能夠融入企業的視覺識
 
 ---
 
-## 第三部分：核心功能模組開發指南
+## 第四部分：核心功能模組開發指南
 
 ### 3.1 知識庫管理模組
 
@@ -234,7 +248,7 @@ GraphRAG 層提供知識圖譜的構建和探索能力，讓使用者能夠理�
 
 ---
 
-## 第四部分：模型管理與適配
+## 第五部分：模型管理與適配
 
 ### 4.1 支援的 LLM 服務
 
@@ -267,7 +281,7 @@ xCloudMOPs 採用 **LiteLLM** 作為所有對外 LLM API 的統一管理層。�
 | 重排序模型 | 檢索結果重排 | BGE-Reranker, Cohere Rerank |
 | 多模態模型 | 圖像理解、視覺問答 | Gemini Vision, Qwen-VL |
 
-### 4.3 模型微調功能
+### 4.4 模型微調功能
 
 xCloudMOPs 支援類似 Dify 的模型微調功能，讓使用者可以基於自己的數據微調開源模型。
 
@@ -282,7 +296,7 @@ xCloudMOPs 支援類似 Dify 的模型微調功能，讓使用者可以基於自
 
 ---
 
-## 第五部分：實際應用場景
+## 第六部分：實際應用場景
 
 ### 5.1 企業知識庫
 
@@ -320,7 +334,7 @@ xCloudMOPs 支援創建個人的 Open NotebookLM，讓使用者可以：
 
 ---
 
-## 第六部分：Artifacts 與程式碼生成
+## 第七部分：Artifacts 與程式碼生成
 
 ### 6.1 OpenCode 整合
 
@@ -344,7 +358,7 @@ xCloudMOPs 整合 OpenCode 功能，支援 Artifacts 能力：
 
 ---
 
-## 第七部分：監控與運維
+## 第八部分：監控與運維
 
 ### 7.1 Dashboard 設計
 
@@ -370,11 +384,11 @@ xCloudMOPs 使用 Grafana 作為底層服務監控整體環境架構：
 
 ---
 
-## 第八部分：部署指南
+## 第九部分：部署指南
 
 ### 8.1 Docker Compose 部署
 
-xCloudMOPs 使用 Docker Compose 進行部署，確保系統可以在任何環境中快速部署。
+xCloudMOPs 支援多種部署方式，以滿足不同規模和可用性需求。
 
 **預設安裝的服務**：
 
@@ -387,7 +401,15 @@ xCloudMOPs 使用 Docker Compose 進行部署，確保系統可以在任何環�
 | LLM 推理 | Ollama |
 | API 管理 | LiteLLM |
 
-### 8.2 部署步驟
+### 9.2 多樣化的部署選項
+
+| 部署方式 | 工具/平台 | 適用場景 |
+|:---|:---|:---|
+| **Docker Compose** | `docker-compose.yaml` | 一鍵部署所有服務，適合小規模使用、本地開發和測試。 |
+| **Kubernetes** | Helm Charts, YAML | 適合需要高可用性、自動擴展的大規模生產環境。 |
+| **雲平台** | AWS CDK, Azure Terraform, Google Cloud Terraform | 深度整合雲端服務，利用雲原生能力進行部署和管理。 |
+
+### 9.3 部署步驟
 
 1. **環境準備**：確保安裝 Docker 和 Docker Compose
 2. **配置文件**：根據環境修改 `.env` 配置文件
@@ -397,7 +419,7 @@ xCloudMOPs 使用 Docker Compose 進行部署，確保系統可以在任何環�
 
 ---
 
-## 第九部分：測試與除錯
+## 第十部分：測試與除錯
 
 ### 9.1 測試策略
 
@@ -415,6 +437,20 @@ xCloudMOPs 使用 Docker Compose 進行部署，確保系統可以在任何環�
 **後端除錯**：查看服務日誌，使用斷點調試，檢查 API 響應。
 
 **RAG 除錯**：檢查檢索結果、Prompt 構建、模型響應等各環節。
+
+---
+
+## 第十一部分：SDK 與 API 參考
+
+### 11.1 多語言 SDK
+
+xCloudMOPs 提供 Node.js, Python, 和 PHP 的客戶端 SDK，封裝了對後端 API 的調用，簡化了整合流程。所有 SDK 均提供以下核心類：
+
+| 核心類 | 功能描述 |
+|:---|:---|
+| `xCloudMOPsClient` | 基礎客戶端，負責文件上傳、消息反饋等。 |
+| `ChatClient` | 對話型應用接口，管理對話的創建、獲取、重命名等。 |
+| `CompletionClient` | 文本補全型應用接口，用於創建補全消息。 |
 
 ---
 
